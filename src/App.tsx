@@ -14,6 +14,7 @@ function App() {
       <Navbar /> {/* Navbar stays fixed across all pages */}
       <div className="flex-grow pt-16">
         <Routes>
+          <Route path="/dish-delights" element={<HomePage />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/favorites" element={<FavoritesPage />} />
           <Route path="/about" element={<AboutPage />} />
