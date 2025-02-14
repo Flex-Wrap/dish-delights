@@ -40,6 +40,18 @@ const DetailsPage = () => {
 
   if (!recipe) return <p className="text-center text-gray-500">Loading...</p>;
 
+  // Extract ingredients (supports both formats)
+  const ingredientsList =
+    recipe.ingredients && Array.isArray(recipe.ingredients)
+      ? recipe.ingredients // Use custom ingredients array if available
+      : Array.from({ length: 20 })
+          .map((_, i) => {
+            const ingredient = recipe[`strIngredient${i + 1}`];
+            const measure = recipe[`strMeasure${i + 1}`];
+            return ingredient ? `${measure} ${ingredient}`.trim() : null;
+          })
+          .filter((item) => item); // Remove null values
+
   return (
     <div className="md:p-6 max-w-5xl mx-auto">
       {/* Grid Layout */}
@@ -53,11 +65,9 @@ const DetailsPage = () => {
           />
           <h2 className="text-xl font-semibold mt-6">Ingredients:</h2>
           <ul className="list-disc list-inside mt-2 space-y-1 md:text-start p-4">
-            {Array.from({ length: 20 }).map((_, i) => {
-              const ingredient = recipe[`strIngredient${i + 1}`];
-              const measure = recipe[`strMeasure${i + 1}`];
-              return ingredient ? <li key={i}><b>{measure}</b> {ingredient}</li> : null;
-            })}
+            {ingredientsList.map((item: any, index: any) => (
+              <li key={index}>{item}</li>
+            ))}
           </ul>
         </div>
 
@@ -68,7 +78,7 @@ const DetailsPage = () => {
 
           {/* Add to Favorites Button (Using Custom Button Component) */}
           <Button 
-            text={isFavorite ? "Remove from Favorites 💙" : "Add to Favorites ❤️"} 
+            text={isFavorite ? "Remove from Favorites ❤️" : "Add to Favorites 💙"} 
             color={isFavorite ? "#DC2626" : "#1E40AF"} 
             onClick={handleFavoriteToggle} 
             className="mt-6"

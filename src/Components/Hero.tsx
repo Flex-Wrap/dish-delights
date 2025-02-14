@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import Button from "./Button";
 
 interface HeroProps {
@@ -5,6 +6,8 @@ interface HeroProps {
 }
 
 const Hero: React.FC<HeroProps> = ({ image }) => {
+  const navigate = useNavigate();
+
   return (
     <div
       className="relative h-[500px] md:h-[600px] w-screen bg-cover bg-center flex items-center justify-center text-center"
@@ -21,9 +24,14 @@ const Hero: React.FC<HeroProps> = ({ image }) => {
         </p>
       </div>
 
-      {/* Call-to-Action Button (Position changes on smaller screens) */}
+      {/* Call-to-Action Button - Navigates to Create Page */}
       <div className="absolute bottom-6 right-6">
-        <Button text="Get Started" color="#ff5733" className="text-lg px-8 py-3" />
+        <Button 
+          text="Get Started" 
+          color="#ff5733" 
+          className="text-lg px-8 py-3" 
+          onClick={() => navigate("/create")}
+        />
       </div>
     </div>
   );
